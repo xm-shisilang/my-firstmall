@@ -1,7 +1,13 @@
 <template>
   <div id="nav">
-    <router-link to="/" tag="button">Home</router-link> |
-    <router-link to="/about" tag="button">About</router-link>
+    <router-link to="/" tag="span">Home</router-link> |
+    <router-link to="/about" tag="span">About</router-link>
+    <!-- <router-link to="/about" custom v-slot="{ navigate }">
+      <span @click="navigate" @keypress.enter="navigate" role="link">
+        About
+      </span>
+      cli3以上版本使用其他标签代替a标签用法，用a 以外的标签代替渲染貌似没有active 样式效果
+    </router-link> -->
   </div>
   <router-view />
 </template>
