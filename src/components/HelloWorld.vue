@@ -21,7 +21,7 @@ export default {
 }
 h1 {
   color: #c81623;
-  text-shadow: 3px rgba(0, 0, 0, 0.2);
+  /* text-shadow: 3px rgba(0, 0, 0, 0.4); */
 }
 h2 {
   color: #f0f0f0;
