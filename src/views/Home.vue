@@ -3,7 +3,7 @@
     <img alt="Vue logo" src="../assets/logo.png" />
 
     <div class="clonemall">
-      <h2>这是在clone-myfirstmall 下进行的修改</h2>
+      <h2>这是在clone-myfirstmall 下进行的修改,然后在my-firstmall下再次修改</h2>
     </div>
     <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
