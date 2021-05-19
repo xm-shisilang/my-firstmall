@@ -19,4 +19,13 @@ export default {
 .hello {
   background-color: yellowgreen;
 }
+h1 {
+  color: #c81623;
+  text-shadow: 3px rgba(0, 0, 0, 0.2);
+}
+h2 {
+  color: #f0f0f0;
+  text-decoration: underline;
+  margin: 10px auto;
+}
 </style>
