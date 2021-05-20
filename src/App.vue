@@ -1,7 +1,8 @@
 <template>
   <div id="nav">
-    <router-link to="/home" tag="span">Home</router-link> |
-    <router-link to="/about" tag="span">About</router-link>
+    <router-link to="/home">Home</router-link> |
+    <router-link to="/about">About</router-link> |
+    <router-link to="/testadd">Testadd</router-link>
     <!-- <router-link to="/about" custom v-slot="{ navigate }">
       <span @click="navigate" @keypress.enter="navigate" role="link">
         About

@@ -15,3 +15,16 @@
     <h2>test push to div</h2>
   </div>
 </template>
+<script>
+export default {
+  name: "About",
+};
+</script>
+<style scope>
+.about {
+  background-color: yellowgreen;
+}
+.about h2 {
+  color: brown;
+}
+</style>

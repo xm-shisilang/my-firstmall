@@ -1,5 +1,6 @@
 <template>
   <div class="testadd">
+    <h2>movies</h2>
     <ul>
       <li>{{ movies[0] }}</li>
       <li>{{ movies[1] }}</li>
@@ -20,7 +21,17 @@ export default {
 };
 </script>
 <style scoped>
-li {
+.testadd {
+  background-color: pink;
+  text-align: center;
+}
+
+.testadd li {
   list-style: none;
+  font-size: 20px;
+  font-weight: 600;
+  color: blueviolet;
+  line-height: 30px;
+  text-indent: -2em;
 }
 </style>
