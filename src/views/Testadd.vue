@@ -1,5 +1,6 @@
 <template>
   <div class="testadd">
+    <h2>vuex-counter:{{ $store.state.counter }}</h2>
     <h2>movies</h2>
     <ul>
       <li>{{ movies[0] }}</li>
