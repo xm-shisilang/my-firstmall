@@ -5,12 +5,12 @@ export default createStore({
     counter: 1
   },
   mutations: {
-    decrementcou(state) {
-      state.counter--
-    },
-    imcrementcou(state) {
-      state.counter++
-    }
+    // decrementcou(state) {
+    //   state.counter--
+    // },
+    // imcrementcou(state) {
+    //   state.counter++
+    // }
   },
   actions: {
   },

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home1 from '../views/Home.vue'
-import About from '../views/About.vue'
-import Testadd from '../views/Testadd.vue'
+// import Home1 from '../views/Home.vue'
+// import About from '../views/About.vue'
+// import Testadd from '../views/Testadd.vue'
 const Home = () => import('../views/home/home.vue')
 const Category = () => import('../views/category/category.vue')
 const Cart = () => import('../views/cart/cart.vue')
