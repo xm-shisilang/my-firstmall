@@ -22,6 +22,7 @@
 
 <script>
 import mainTabBar from "./components/content/maintabbar/maintabbar.vue";
+
 export default {
   name: "App",
   components: {
@@ -33,6 +34,7 @@ export default {
 <style>
 @import "assets/css/normalize.css";
 @import "assets/css/base.css";
+@import "common/bootstrap/css/bootstrap.min.css";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

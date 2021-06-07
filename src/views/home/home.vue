@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="homepage">
-      <h2>首页</h2>
+      <h2>就是玩儿-首页</h2>
       <div class="homebody">
         <span>首页主体</span>
+        <div class="serch">搜索栏</div>
         <div class="nav">nav</div>
         <div class="banner">banner</div>
         <div class="focus">focus</div>
