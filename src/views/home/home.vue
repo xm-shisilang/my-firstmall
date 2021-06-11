@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="home">
+    <nav-bar></nav-bar>
     <div class="homepage">
       <h2>就是玩儿-首页</h2>
       <div class="homebody">
@@ -15,8 +16,13 @@
   </div>
 </template>
 <script>
+import NavBar from "@/components/common/navbar/NavBar.vue";
+// import NavBar from "../../components/common/navbar/NavBar.vue";
 export default {
   name: "Home",
+  components: {
+    NavBar,
+  },
 };
 </script>
 <style scoped>
