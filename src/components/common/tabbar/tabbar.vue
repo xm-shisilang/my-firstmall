@@ -23,5 +23,6 @@ export default {
   /* line-height: 50px; */
   color: #fff;
   box-shadow: 0 -4px 4px rgba(255, 204, 204, 0.2);
+  z-index: 9999;
 }
 </style>
