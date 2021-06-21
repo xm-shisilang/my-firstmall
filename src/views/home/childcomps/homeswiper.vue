@@ -73,11 +73,17 @@ export default {
 img {
   width: 100%;
 }
-.swiper-pagination {
+.swiper-container .swiper-pagination {
   background-color: rgba(0, 0, 0, 0.4);
+  bottom: 0;
 }
+
 .swiper-pagination span {
   background-color: #fff;
+  outline: none;
+}
+.swiper-pagination .swiper-pagination-bullet-active {
+  background-color: hotpink;
 }
 .swiper-button-next::after,
 .swiper-button-prev::after {
@@ -85,6 +91,7 @@ img {
 }
 .swiper-button-next,
 .swiper-button-prev {
+  display: none;
   outline: none;
 }
 </style>
