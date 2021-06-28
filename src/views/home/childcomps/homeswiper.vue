@@ -18,7 +18,7 @@
   >
     <swiper-slide v-for="(item, index) in banners" :key="'banners' + index">
       <a :href="item.link">
-        <img :src="item.image" alt="" />
+        <img :src="item.image" alt="" @load="swiperImageLoad" />
       </a>
     </swiper-slide>
 
@@ -59,12 +59,23 @@ export default {
       type: Array,
     },
   },
+  data() {
+    return {
+      isload: false,
+    };
+  },
   methods: {
     onSwiper(swiper) {
       // console.log(swiper);
     },
     onSlideChange() {
       // console.log("slide change");
+    },
+    swiperImageLoad() {
+      if (!this.isload) {
+        this.$emit("swiperImageLoad");
+        this.isload = true;
+      }
     },
   },
 };

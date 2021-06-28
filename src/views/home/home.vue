@@ -12,33 +12,45 @@
         <h2 class="glyphicon glyphicon-th-list"></h2>
       </template> -->
     </nav-bar>
-    <div class="homepage">
-      <!-- 首页轮播图============================================================= -->
-      <home-swiper class="banners" :banners="banners"></home-swiper>
-      <!-- 首页recommends============================================================= -->
-      <home-recommend-view
-        class="recommends"
-        :recommends="recommends"
-      ></home-recommend-view>
-      <!-- 首页featrue============================================================= -->
-      <featrue></featrue>
-      <!-- 首页商品内容展示============================================================= -->
-      <tab-control
-        class="tabcontrol"
-        :titles="['流行', '新款', '精选']"
-      ></tab-control>
-      <goods-list :goods="goods['pop'].list" />
-      <!-- 首页开发时占页面长度内容用的没用的内用============================================================= -->
-      <div class="homebody">
-        <span>首页主体</span>
-        <div class="serch">搜索栏</div>
-        <div class="nav">nav</div>
-        <div class="banner">banner</div>
-        <div class="focus">focus</div>
-        <div class="others">others</div>
-        <div class="footer">footer</div>
+    <tab-control
+      :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"
+      ref="tabcontrol1"
+      :class="{ posisionfixed: true, hidden: positionfixedkey }"
+    ></tab-control>
+    <scroll
+      class="homescrollcontent"
+      ref="homescroll"
+      :probe-type="3"
+      :pull-up-load="true"
+      @gotophidden="gotophidden"
+      @pullUpLoad="loadMore"
+    >
+      <div class="homepage">
+        <home-swiper
+          class="banners"
+          :banners="banners"
+          @swiperImageLoad="swiperImageLoad"
+        ></home-swiper>
+        <home-recommend-view
+          class="recommends"
+          :recommends="recommends"
+        ></home-recommend-view>
+        <featrue></featrue>
+        <tab-control
+          :titles="['流行', '新款', '精选']"
+          @tabClick="tabClick"
+          ref="tabcontrol2"
+          :class="{ hidden: !positionfixedkey }"
+        ></tab-control>
+        <goods-list
+          :goods="showGoods"
+          @itemImageLoad="itemImageLoad(4)"
+          :class="{ mt50: !positionfixedkey }"
+        />
       </div>
-    </div>
+    </scroll>
+    <back-top @click="backtop" :class="{ hidden: gotophiddenkey }" />
   </div>
 </template>
 <script>
@@ -47,8 +59,11 @@ import HomeRecommendView from "./childcomps/homerecommendview.vue";
 import Featrue from "./childcomps/featrue.vue";
 
 import NavBar from "@/components/common/navbar/NavBar.vue";
+import Scroll from "@/components/common/scroll/scroll.vue";
+
 import TabControl from "@/components/content/tabControl/TabControl.vue";
 import GoodsList from "@/components/content/goods/GoodsList.vue";
+import BackTop from "@/components/content/BackTop/backtop.vue";
 
 import { getHomeMultidate, getHomeGoods } from "@/network/home.js";
 
@@ -61,6 +76,8 @@ export default {
     NavBar,
     TabControl,
     GoodsList,
+    Scroll,
+    BackTop,
   },
   data() {
     return {
@@ -71,7 +88,23 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] },
       },
+      currentType: "pop",
+      gotophiddenkey: {
+        type: Boolean,
+        default: true,
+      },
+      imgload: 0,
+      taboffsetTop: 0,
+      positionfixedkey: {
+        type: Boolean,
+        default: false,
+      },
     };
+  },
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
+    },
   },
   created() {
     //请求首页基础数据 加This指向methods里的getHomeMultidate()
@@ -80,8 +113,20 @@ export default {
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
+    //监听图片加载完成
   },
+  // 测试用的vue生命周期函数：
+  mounted() {},
+  unmounted() {
+    console.log("unmounted");
+  },
+  activated() {
+    this.$refs.homescroll.refresh(); //每次回到首页就重新刷新可滚动区域高度，
+    console.log("home is active");
+  },
+
   methods: {
+    // 网络请求方法
     getHomeMultidate() {
       getHomeMultidate().then((res) => {
         // console.log(res);
@@ -96,9 +141,66 @@ export default {
         // console.log(res);
         this.goods[type].list.push(...res.list);
         this.goods[type].page += 1;
-        console.log(this.goods[type].list);
+        // console.log(this.goods[type].list);
+        this.$refs.homescroll.finishPullUp();
       });
     },
+    // 事件监听方法
+    tabClick(index) {
+      // console.log(index);
+      switch (index) {
+        case 0:
+          this.currentType = "pop";
+          break;
+        case 1:
+          this.currentType = "new";
+          break;
+        case 2:
+          this.currentType = "sell";
+          break;
+      }
+      this.$refs.tabcontrol1.currentIndex = index;
+      this.$refs.tabcontrol2.currentIndex = index;
+      // 每次点击tabbar的按钮后回到tabbar置顶的位置（避免当前（比如pop）分类加载大量数据并且下拉太多时,切换tabbar导致scroll位置没刷新,而切换后当前类型(比如new\sell)数据不够或者加载不过来时出现一些问题）
+      this.$refs.homescroll.scrollTo(0, -this.taboffsetTop, 0);
+    },
+    backtop() {
+      // console.log("backtop");
+      this.$refs.homescroll.scrollTo(0, 0, 500);
+    },
+    gotophidden(position) {
+      this.gotophiddenkey = -position.y > 1000 ? false : true; // 下拉超过1000px hidden: false（显示） 否则为 true（隐藏）
+      this.positionfixedkey = -position.y > this.taboffsetTop ? false : true;
+    },
+    loadMore() {
+      // console.log("loadMore");
+      this.getHomeGoods(this.currentType);
+    },
+    itemImageLoad(num) {
+      //参数num决定每加载num张图片后刷新scroll可滚动区域高度
+      this.imgload += 1;
+      if (this.imgload % num == 0) {
+        this.$refs.homescroll.refresh();
+        // this.imgload = 0;
+      } else if (this.imgload == this.goods[this.currentType].list.length) {
+        this.$refs.homescroll.refresh();
+        this.imgload = 0;
+      }
+    },
+    swiperImageLoad() {
+      // console.log(this.$refs.tabcontrol2.$el.offsetTop);
+      this.taboffsetTop = this.$refs.tabcontrol2.$el.offsetTop;
+      // console.log(this.taboffsetTop);
+    },
+    // debounce(func, delay) {
+    //   let timer = null;
+    //   return function (...args) {
+    //     if (timer) clearTimeout(timer);
+    //     timer = setTimeout(() => {
+    //       func.apply(this, args);
+    //     }, delay);
+    //   };
+    // },
   },
 };
 </script>
@@ -108,14 +210,21 @@ export default {
   /* background-color: skyblue; */
   line-height: 36px;
   margin: 0;
-  margin-top: 50px;
+  /* margin-top: 50px; */
   color: #fff;
   /* border-top: 1px solid red; */
 }
 .navbar {
   z-index: 9999;
 }
-
+.hidden {
+  display: none;
+}
+/* .posisionfixed {
+  position: fixed;
+  top: 50px;
+  left: 0;
+} */
 h2 {
   margin: 0;
   line-height: 50px;
@@ -151,5 +260,21 @@ h2 {
   height: 200px;
   background-color: #f0f0f0;
   color: #333;
+}
+#home {
+  position: relative;
+  height: 100vh;
+}
+.homescrollcontent {
+  position: absolute;
+  top: 50px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  background-color: #fff;
+}
+.mt50 {
+  margin-top: 40px;
 }
 </style>

@@ -30,15 +30,17 @@ export default {
   methods: {
     itemclick(index) {
       this.currentIndex = index;
+      this.$emit("tabClick", index);
     },
   },
 };
 </script>
 <style scoped>
-.tabcontrol {
-  position: sticky;
+.tab-control {
+  /* position: sticky;
   top: 50px;
   left: 0;
+  right: 0; */
   display: flex;
   text-align: center;
   color: #666;
@@ -48,10 +50,16 @@ export default {
   background-color: #fff;
   z-index: 99;
 }
+.posisionfixed {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+}
 .tab-control-item {
   flex: 1;
 }
-.tabcontrol .active span {
+.tab-control .active span {
   color: hotpink;
   border-bottom: 3px solid hotpink;
 }

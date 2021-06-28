@@ -23,7 +23,7 @@ export default {
   /* line-height: 54px; */
   margin: 0;
   border: 0;
-  background-color: skyblue;
+  background-color: #ff8e96;
   color: #fff;
 }
 .navbar h2 {

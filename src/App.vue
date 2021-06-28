@@ -1,13 +1,5 @@
 <template>
   <!-- <div id="nav"> -->
-  <!-- <router-link to="/home1">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/testadd">Testadd</router-link> | -->
-
-  <!-- <router-link to="/home">Home</router-link> |
-    <router-link to="/category">Category</router-link> |
-    <router-link to="/cart">Cart</router-link> |
-    <router-link to="/profile">Profile</router-link> -->
 
   <!-- <router-link to="/about" custom v-slot="{ navigate }">
       <span @click="navigate" @keypress.enter="navigate" role="link">
@@ -16,17 +8,27 @@
       cli3以上版本使用其他标签代替a标签用法，用a 以外的标签代替渲染貌似没有active 样式效果
     </router-link> -->
   <!-- </div> -->
-  <router-view />
+
+  <!-- vue3 进行页面记录保存（keepalive）的用法，在include中加要保存组件（页面）的名称 -->
+  <router-view v-slot="{ Component }">
+    <keep-alive include="Home">
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
+
+  <!-- <router-view></router-view> -->
   <main-tab-bar></main-tab-bar>
 </template>
 
 <script>
 import mainTabBar from "./components/content/maintabbar/maintabbar.vue";
+import Home from "./views/home/home.vue";
 
 export default {
   name: "App",
   components: {
     mainTabBar,
+    Home,
   },
 };
 </script>

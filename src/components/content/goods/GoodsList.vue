@@ -4,6 +4,7 @@
       v-for="(item, index) in goods"
       :goods-item="item"
       :key="'goodsitem' + index"
+      @itemImageLoad="itemImageLoad"
     />
   </div>
 </template>
@@ -20,6 +21,11 @@ export default {
       default() {
         return [];
       },
+    },
+  },
+  methods: {
+    itemImageLoad() {
+      this.$emit("itemImageLoad");
     },
   },
 };
