@@ -1,17 +1,16 @@
 <template>
   <div class="goodsitem">
-    <a :href="goodsItem.link">
-      <img :src="goodsItem.show.img" alt="" @load="itemImageLoad" />
-      <div class="item-info">
-        <p>{{ goodsItem.title }}</p>
-        <span class="price">￥{{ goodsItem.price }} </span>
-        <span class="collect"
-          >&nbsp;
-          <span class="glyphicon glyphicon-star-empty"></span>
-          <span>收藏: {{ goodsItem.cfav }}</span></span
-        >
-      </div>
-    </a>
+    <img :src="showimg" alt="" @load="itemImageLoad" />
+
+    <div class="item-info">
+      <p>{{ goodsItem.title }}</p>
+      <span class="price">￥{{ goodsItem.price }} </span>
+      <span class="collect"
+        >&nbsp;
+        <span class="glyphicon glyphicon-star-empty"></span>
+        <span>收藏: {{ goodsItem.cfav }}</span></span
+      >
+    </div>
   </div>
 </template>
 <script>
@@ -30,6 +29,17 @@ export default {
       this.$emit("itemImageLoad");
     },
   },
+  computed: {
+    showimg() {
+      let imglink = "";
+      if (this.goodsItem.show) {
+        imglink = this.goodsItem.show.img;
+      } else {
+        imglink = this.goodsItem.image;
+      }
+      return imglink;
+    },
+  },
 };
 </script>
 <style scoped>
@@ -42,11 +52,11 @@ export default {
   display: block;
   color: #333;
 }
-.goodsitem a img {
+.goodsitem img {
   width: 100%;
   border-radius: 5px;
 }
-.goodsitem a .item-info {
+.goodsitem .item-info {
   width: 100%;
   height: 45px;
   position: absolute;
@@ -54,26 +64,26 @@ export default {
   bottom: 0;
   left: 0;
 }
-.goodsitem a p,
-.goodsitem a span {
+.goodsitem p,
+.goodsitem span {
   height: 20px;
   overflow: hidden;
   line-height: 20px;
   margin: 0;
 }
-.goodsitem a p {
+.goodsitem p {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.goodsitem a span {
+.goodsitem span {
   display: inline-block;
 }
-.goodsitem a .item-info .price {
+.goodsitem .item-info .price {
   color: red;
 }
-.goodsitem a .item-info .collect {
+.goodsitem .item-info .collect {
   /* position: relative;
   margin-left: 20px; */
   /* color: #333; */

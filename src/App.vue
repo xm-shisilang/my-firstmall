@@ -11,7 +11,7 @@
 
   <!-- vue3 进行页面记录保存（keepalive）的用法，在include中加要保存组件（页面）的名称 -->
   <router-view v-slot="{ Component }">
-    <keep-alive include="Home">
+    <keep-alive include="Home" exclude="Detail">
       <component :is="Component" />
     </keep-alive>
   </router-view>

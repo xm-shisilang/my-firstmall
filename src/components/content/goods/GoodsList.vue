@@ -5,6 +5,7 @@
       :goods-item="item"
       :key="'goodsitem' + index"
       @itemImageLoad="itemImageLoad"
+      @click="itemCLick(index)"
     />
   </div>
 </template>
@@ -26,6 +27,14 @@ export default {
   methods: {
     itemImageLoad() {
       this.$emit("itemImageLoad");
+    },
+    itemCLick(index) {
+      if (this.goods[index].iid) {
+        this.$router.push("/detail/" + this.goods[index].iid);
+      } else {
+        // console.log("功能暂未开放");
+        alert("功能暂未开放");
+      }
     },
   },
 };

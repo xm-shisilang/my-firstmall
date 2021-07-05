@@ -61,7 +61,7 @@ import axios from 'axios'
 
 
 //方法4--对应main.js里方法4  
-
+// reuest 返回res.data.data=========================================================>
 export function request(config) {
   // 1-创建axios实例
   const instance = axios.create({
@@ -89,6 +89,44 @@ export function request(config) {
     res => {
       // console.log(res);
       return res.data.data
+    },
+    err => {
+      console.log(err);
+    }
+  )    //拦截响应
+
+  // 3-真正发送网络请求
+  return instance(config)
+}
+
+//request2 返回res.data=============================================================>
+export function request2(config) {
+  // 1-创建axios实例
+  const instance = axios.create({
+    baseURL: 'http://152.136.185.210:7878/api/m5',
+    timeout: 5000
+  })
+  // 2-axios拦截器
+  // axios.interceptors 全局拦截器
+  instance.interceptors.request.use(
+    config => {
+      //拦截器使用的目的：
+      //1-筛选信息，比如config中的一些信息不符合服务器要求
+      //2-每次网络请求时在界面显示一些网络请求图标
+      //3-某些网络请求（登录时token），必须携带一些特殊信息
+
+      // console.log(config);
+      return config
+    },
+    err => {
+      // console.log(err);
+    }
+  ) //拦截请求
+
+  instance.interceptors.response.use(
+    res => {
+      // console.log(res);
+      return res.data
     },
     err => {
       console.log(err);

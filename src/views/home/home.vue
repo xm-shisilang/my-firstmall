@@ -122,9 +122,6 @@ export default {
   },
   // 测试用的vue生命周期函数：
   mounted() {},
-  unmounted() {
-    console.log("unmounted");
-  },
   activated() {
     this.$refs.homescroll.refresh(); //每次回到首页就重新刷新可滚动区域高度，
     // console.log("home is active");
@@ -232,7 +229,7 @@ export default {
   /* border-top: 1px solid red; */
 }
 .navbar {
-  z-index: 9999;
+  z-index: 3;
 }
 .hidden {
   display: none;

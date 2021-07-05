@@ -48,7 +48,7 @@ export default {
   line-height: 40px;
   font-size: 15px;
   background-color: #fff;
-  z-index: 99;
+  z-index: 3;
 }
 .posisionfixed {
   position: fixed;
