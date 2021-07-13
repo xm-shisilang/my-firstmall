@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="categorypage">
-      <h2>分类</h2>
+      <h3>分类</h3>
     </div>
   </div>
 </template>
@@ -12,13 +12,16 @@ export default {
 </script>
 <style scoped>
 .categorypage {
+  height: 50px;
   text-align: center;
   background-color: skyblue;
-  line-height: 36px;
+  line-height: 50px;
   margin: 0;
   color: #fff;
 }
-.categorypage h2 {
+.categorypage h3 {
+  height: 50px;
+  line-height: 50px;
   margin: 0;
 }
 </style>

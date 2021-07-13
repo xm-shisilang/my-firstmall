@@ -7,6 +7,16 @@
       :probeType="3"
       @gotophidden="gotophidden"
     >
+      <!-- <div>
+        <ul>
+          <li
+            v-for="(item, index) in $store.state.cartList"
+            :key="'test vuex ' + index"
+          >
+            {{ item }}
+          </li>
+        </ul>
+      </div> -->
       <detail-swiper :topImages="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shops"></detail-shop-info>
@@ -37,7 +47,9 @@
         test 测试时用占据高度
       </div>
     </scroll>
+    <detail-bottom-bar @addtocart="detailaddtocart" />
     <back-top @click="backtop" :class="{ hidden: gotophiddenkey }" />
+    <toast ref="toastref"></toast>
   </div>
 </template>
 <script>
@@ -48,11 +60,14 @@ import detailShopInfo from "./childcomps/detailShopInfo.vue";
 import detailImeges from "./childcomps/detailImages.vue";
 import detailParams from "./childcomps/detailParams.vue";
 import detailCommentInfo from "./childcomps/detailCommentInfo.vue";
+import detailBottomBar from "./childcomps/detailBottomBar.vue";
 
 import Scroll from "@/components/common/scroll/scroll.vue";
 
 import GoodsList from "@/components/content/goods/GoodsList.vue";
 import BackTop from "@/components/content/BackTop/backtop.vue";
+
+import Toast from "@/components/common/toast/Toast.vue";
 
 import {
   getDetail,
@@ -61,12 +76,12 @@ import {
   Shop,
   Param,
 } from "@/network/detail";
-import { nextTick } from "@vue/runtime-core";
 
 export default {
   name: "Detail",
   components: {
     detailNavBar,
+    detailBottomBar,
     Scroll,
     detailSwiper,
     detailBaseInfo,
@@ -76,6 +91,7 @@ export default {
     detailCommentInfo,
     GoodsList,
     BackTop,
+    Toast,
   },
   data() {
     return {
@@ -107,21 +123,29 @@ export default {
         this.themeTopYs[1] = this.$refs.detailparams.$el.offsetTop;
         this.themeTopYs[2] = this.$refs.comment.$el.offsetTop;
         this.themeTopYs[3] = this.$refs.recommend.$el.offsetTop;
-        // console.log(this.themeTopYs);
+        // console.log(this.imgload, this.themeTopYs);
         // this.imgload = 0;
       } else if (
-        this.imgload == this.detailInfo.detailImage[1]
+        this.imgload ==
+        (this.detailInfo.detailImage[1]
           ? this.detailInfo.detailImage[0].list.length +
             this.detailInfo.detailImage[1].list.length +
             this.recommends.length
-          : this.detailInfo.detailImage[0].list.length + this.recommends.length
+          : this.detailInfo.detailImage[0].list.length + this.recommends.length)
       ) {
         this.$refs.detailscroll.refresh();
+
+        this.themeTopYs[0] = 0;
+        this.themeTopYs[1] = this.$refs.detailparams.$el.offsetTop;
+        this.themeTopYs[2] = this.$refs.comment.$el.offsetTop;
+        this.themeTopYs[3] = this.$refs.recommend.$el.offsetTop;
+        // console.log(this.imgload, this.themeTopYs);
         // this.imgload = 0;
       }
     },
     titleclick(index) {
-      console.log(index);
+      // console.log(index);
+
       this.$refs.detailscroll.scrollTo(0, -this.themeTopYs[index], 300);
     },
     gotophidden(position) {
@@ -131,28 +155,58 @@ export default {
         this.gotophiddenkey = true;
       }
       if (this.$route.path !== "/home") {
+        // if (position.y > -this.themeTopYs[1]) {
+        //   this.$refs.detailnavbar.currentIndex = 0;
+        // }
+        // if (position.y <= -this.themeTopYs[1]) {
+        //   this.$refs.detailnavbar.currentIndex = 1;
+        // }
+        // if (position.y <= -this.themeTopYs[2]) {
+        //   this.$refs.detailnavbar.currentIndex = 2;
+        // }
+        // if (position.y <= -this.themeTopYs[3]) {
+        //   this.$refs.detailnavbar.currentIndex = 3;
+        // }
         if (position.y > -this.themeTopYs[1]) {
           this.$refs.detailnavbar.currentIndex = 0;
-        }
-        if (position.y <= -this.themeTopYs[1]) {
+        } else if (position.y > -this.themeTopYs[2]) {
           this.$refs.detailnavbar.currentIndex = 1;
-        }
-        if (position.y <= -this.themeTopYs[2]) {
+        } else if (position.y > -this.themeTopYs[3]) {
           this.$refs.detailnavbar.currentIndex = 2;
-        }
-        if (position.y <= -this.themeTopYs[3]) {
+        } else {
           this.$refs.detailnavbar.currentIndex = 3;
         }
+        // console.log(
+        //   position.y,
+        //   this.themeTopYs,
+        //   this.$refs.detailnavbar.currentIndex
+        // );
       }
     },
     backtop() {
       this.$refs.detailscroll.scrollTo(0, 0, 300);
     },
+    detailaddtocart() {
+      // console.log("detailaddtocartv");
+      let product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
+      product.goodscount = 1;
+      product.checked = true;
+      // this.$store.commit("addCartGoods", product);
+      this.$store.dispatch("addCartGoods", product).then((res) => {
+        // console.log(res);
+        this.$refs.toastref.show(res, 1500);
+      });
+    },
   },
   created() {
     this.iid = this.$route.params.iid;
     getDetail(this.iid).then((res) => {
-      console.log(this.iid, res);
+      // console.log(this.iid, res);
       this.topImages = res.result.itemInfo.topImages;
 
       this.goods = new GoodsInfo(

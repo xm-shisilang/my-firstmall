@@ -1,19 +1,14 @@
 import { createStore } from 'vuex'
 
+import mutations from "./mutations"
+import actions from "./actions"
+
 export default createStore({
   state: {
-    counter: 1
+    cartList: []
   },
-  mutations: {
-    // decrementcou(state) {
-    //   state.counter--
-    // },
-    // imcrementcou(state) {
-    //   state.counter++
-    // }
-  },
-  actions: {
-  },
+  mutations,
+  actions,
   modules: {
   }
 })

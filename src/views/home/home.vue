@@ -6,7 +6,7 @@
         <h2>left</h2>
       </template> -->
       <template v-slot:center>
-        <h2>就是玩儿-首页</h2>
+        <h3>就是玩儿-首页</h3>
       </template>
       <!-- <template v-slot:right>
         <h2 class="glyphicon glyphicon-th-list"></h2>
@@ -239,7 +239,7 @@ export default {
   top: 50px;
   left: 0;
 } */
-h2 {
+h3 {
   margin: 0;
   line-height: 50px;
 }

@@ -27,6 +27,13 @@
       </div>
     </div>
   </div>
+  <div class="detailcommentinfo" v-else>
+    <div class="commentheadbar">
+      <div class="hdbarleft">用户评价</div>
+      <div class="hdbarright"><span>更多&gt;&gt;</span></div>
+    </div>
+    <div class="commenthead2">没有评论</div>
+  </div>
 </template>
 <script>
 export default {
@@ -127,5 +134,9 @@ export default {
 }
 .commentimages .commentimg image {
   width: 90%;
+}
+.commenthead2 {
+  text-align: center;
+  line-height: 30px;
 }
 </style>

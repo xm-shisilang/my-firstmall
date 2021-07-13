@@ -3,16 +3,20 @@
     <div class="paramimage" v-if="param.image !== undefined">
       <img :src="'http:' + param.image" alt="" />
     </div>
-    <div class="goodssize">
+    <div
+      class="goodssize"
+      v-for="(stable, index) in param.sizes"
+      :key="'goodssize' + index"
+    >
       <div
         class="goodssizeitem"
-        v-for="(item, index) in param.sizes[0]"
-        :key="'paramsize' + index"
+        v-for="(item, indey) in stable"
+        :key="'paramsize' + indey"
       >
         <div
           class="sizedata"
-          v-for="(itm, index) in item"
-          :key="'sizeitem' + index"
+          v-for="(itm, indez) in item"
+          :key="'sizeitem' + indez"
         >
           {{ itm }}
         </div>
