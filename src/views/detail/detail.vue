@@ -34,8 +34,9 @@
         @itemImageLoad="imageLoad(4)"
         ref="recommend"
       ></goods-list>
+      <!-- <div style="height: 50px"></div> -->
 
-      <div
+      <!-- <div
         style="
           height: 300px;
           background-color: #f5ac88;
@@ -45,7 +46,7 @@
         "
       >
         test 测试时用占据高度
-      </div>
+      </div> -->
     </scroll>
     <detail-bottom-bar @addtocart="detailaddtocart" />
     <back-top @click="backtop" :class="{ hidden: gotophiddenkey }" />

@@ -10,9 +10,11 @@
     "axios": "^0.21.1",
     "better-scroll": "^2.4.1",
     "core-js": "^3.6.5",
+    "fastclick": "^1.0.6",
     "sass-loader": "^12.1.0",
     "script-loader": "^0.7.2",
     "vue": "^3.0.0",
+    "vue-lazyload-next": "0.0.2",
     "vue-router": "^4.0.0-0",
     "vue.js": "^0.3.2",
     "vuex": "^4.0.0-0"
